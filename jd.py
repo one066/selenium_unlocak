@@ -25,7 +25,7 @@ class JdService:
 
         # 输入 号码
         phone_input_element_xpath = '//input[@class="acc-input mobile J_ping"]'
-        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('***-****-****')
+        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('**********')
         time.sleep(1)
 
         # 点击获取验证码

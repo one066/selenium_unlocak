@@ -57,7 +57,7 @@ class SlideToUnlockV1:
         self._length = min(gt_40_x)
 
     @staticmethod
-    def get_forward_tracks(length: int) -> List[int]:
+    def get_forward_tracks(length: float) -> List[int]:
         """ 模拟滑动的轨迹
         """
         # 移动轨迹
@@ -69,7 +69,7 @@ class SlideToUnlockV1:
         # 初速度
         v = 0
         # 滑超过过一段距离
-        length += 18
+        length += 9
         while sum(track) < length:
             if sum(track) < mid:
                 # 加速度为正
@@ -97,14 +97,20 @@ class SlideToUnlockV1:
         time.sleep(0.2)
 
         # 得到向前向后的轨迹
-        forward_tracks = self.get_forward_tracks(self._length)
+        forward_tracks_1 = self.get_forward_tracks((self._length // 4.0) * 3)
+        forward_tracks_2 = self.get_forward_tracks(self._length // 4.0)
         back_tracks = [-1, -1, -2, -3, -3, -3, -2, -1, -1, -1]
 
-        # 正向移动滑块
-        for x in forward_tracks:
+        # 正向 3/4 移动滑块
+        for x in forward_tracks_1:
             action.move_by_offset(xoffset=x, yoffset=0).perform()
 
-        time.sleep(0.1)
+        time.sleep(0.2)
+        # 正向 1/4 移动滑块
+        for x in forward_tracks_2:
+            action.move_by_offset(xoffset=x, yoffset=0).perform()
+
+        time.sleep(0.3)
         # 逆向移动滑块
         for x in back_tracks:
             action.move_by_offset(xoffset=x, yoffset=0).perform()
