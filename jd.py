@@ -25,7 +25,7 @@ class JdService:
 
         # 输入 号码
         phone_input_element_xpath = '//input[@class="acc-input mobile J_ping"]'
-        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('***********')
+        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('***-****-****')
         time.sleep(1)
 
         # 点击获取验证码
@@ -38,7 +38,8 @@ class JdService:
             slide_to_unlock_v1.slide_to_unlock(
                 img_element=(By.ID, 'cpc_img'),
                 sliding_block_element=(By.XPATH, '//div[@class="sp_msg"]/img'),
-                is_success_element=(By.XPATH, '//button[@class="getMsg-btn text-btn J_ping"]')
+                is_success_element=(By.XPATH, '//button[@class="getMsg-btn text-btn J_ping"]'),
+                retry_count=5
             )
         except SlideToUnlockFailed:
             print('解锁失败')

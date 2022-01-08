@@ -3,6 +3,7 @@ from io import BytesIO
 from typing import List, Optional
 
 from PIL import Image
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
@@ -68,7 +69,7 @@ class SlideToUnlockV1:
         # 初速度
         v = 0
         # 滑超过过一段距离
-        length += 15
+        length += 18
         while sum(track) < length:
             if sum(track) < mid:
                 # 加速度为正
@@ -97,7 +98,7 @@ class SlideToUnlockV1:
 
         # 得到向前向后的轨迹
         forward_tracks = self.get_forward_tracks(self._length)
-        back_tracks = [-1, -1, -2, -2, -3, -2, -2, -1, -1]
+        back_tracks = [-1, -1, -2, -3, -3, -3, -2, -1, -1, -1]
 
         # 正向移动滑块
         for x in forward_tracks:
@@ -109,8 +110,9 @@ class SlideToUnlockV1:
             action.move_by_offset(xoffset=x, yoffset=0).perform()
 
         # 模拟抖动
-        action.move_by_offset(xoffset=-2, yoffset=0).perform()
-        action.move_by_offset(xoffset=2, yoffset=0).perform()
+        action.move_by_offset(xoffset=-6, yoffset=0).perform()
+        action.move_by_offset(xoffset=3, yoffset=0).perform()
+        action.move_by_offset(xoffset=3, yoffset=0).perform()
 
         # 松开左键
         action.release().perform()
@@ -137,7 +139,10 @@ class SlideToUnlockV1:
             time.sleep(3)
 
             # 判断是否成功
-            if self.web_driver.find_element(*is_success_element):
+            try:
+                self.web_driver.find_element(*is_success_element)
                 return
+            except NoSuchElementException:
+                pass
 
         raise SlideToUnlockFailed
