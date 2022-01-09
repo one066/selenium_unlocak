@@ -7,3 +7,6 @@
 - 在滑动的过程中因为有反爬、要模拟人工操作、所以要设计运动轨迹
 
 > 当前代码里有 jd 登录示例代码
+
+## 演示
+![image](https://github.com/one066/selenium_unlocak/blob/master/crack.gif)
