@@ -25,7 +25,7 @@ class JdService:
 
         # 输入 号码
         phone_input_element_xpath = '//input[@class="acc-input mobile J_ping"]'
-        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('**********')
+        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('*********')
         time.sleep(1)
 
         # 点击获取验证码
@@ -44,9 +44,23 @@ class JdService:
         except SlideToUnlockFailed:
             print('解锁失败')
 
-        """
-        *** 接着进行操作
-        """
+        time.sleep(0.5)
+        self.web_driver.find_element(By.XPATH, '//input[@class="policy_tip-checkbox"]').click()
+
+        time.sleep(0.5)
+        auth_code = input('请输入收到的验证码:')
+        self.web_driver.find_element(By.ID, 'authcode').send_keys(auth_code)
+
+        time.sleep(0.5)
+        self.web_driver.find_element(By.XPATH, '//a[@class="btn J_ping btn-active"]').click()
+
+        time.sleep(3)
+        print({'pt_pin': self.web_driver.get_cookie('pt_pin')['value'],
+               'pt_key': self.web_driver.get_cookie('pt_key')['value']})
+
+        # ================================= #
+        #            接着进行操作             #
+        # ================================= #
 
 
 if __name__ == '__main__':
