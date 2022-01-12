@@ -20,12 +20,12 @@ class JdService:
     def __init__(self):
         self.web_driver = webdriver.Chrome(service=Service(os.path.join(os.getcwd(), 'chromedriver')))
 
-    def login(self) -> None:
+    def login(self, phone: str) -> None:
         self.web_driver.get(self.LOGIN_URL)
 
         # 输入 号码
         phone_input_element_xpath = '//input[@class="acc-input mobile J_ping"]'
-        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys('*********')
+        self.web_driver.find_element(By.XPATH, phone_input_element_xpath).send_keys(phone)
         time.sleep(1)
 
         # 点击获取验证码
@@ -58,6 +58,9 @@ class JdService:
         print({'pt_pin': self.web_driver.get_cookie('pt_pin')['value'],
                'pt_key': self.web_driver.get_cookie('pt_key')['value']})
 
+        print(f"pt_pin={self.web_driver.get_cookie('pt_pin')['value']};"
+              f"pt_key={self.web_driver.get_cookie('pt_key')['value']}")
+
         # ================================= #
         #            接着进行操作             #
         # ================================= #
@@ -65,4 +68,5 @@ class JdService:
 
 if __name__ == '__main__':
     jd_service = JdService()
-    jd_service.login()
+    user_phone = input('请输入手机号:')
+    jd_service.login(user_phone)
